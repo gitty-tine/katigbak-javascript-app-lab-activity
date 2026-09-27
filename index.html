@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Desk</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-shell">
+        <header class="app-bar sticky-top z-3">
+            <div class="app-title">
+                <div><strong>Cart Desk</strong></div>
+            </div>
+            <div class="app-bar-actions">
+                <span class="store-status"><i></i> Shopping mode</span>
+                <span id="current-time" class="current-time"></span>
+                <button class="utility-button" type="button" data-bs-toggle="offcanvas" data-bs-target="#calculatorOffcanvas">Calculator</button>
+                <button class="theme-button" id="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch theme">☾</button>
+            </div>
+        </header>
+
+        <div class="app-layout">
+            <main class="app-main">
+                <div class="workspace-heading">
+                    <div>
+                        <p class="page-kicker">PERSONAL SHOPPING LIST</p>
+                        <h1><span class="cart-title-emoji" aria-hidden="true"></span>My cart</h1>
+                    </div>
+                </div>
+
+                <section id="cart-workspace" class="panel cart-panel" aria-labelledby="cart-title">
+                    <div class="panel-header">
+                        <div>
+                            <h2 class="ps-4" id="cart-title">Cart items</h2>
+                            <p class="ps-4">Keep track of what you want to buy.</p>
+                        </div>
+                        <span class="item-count me-4" id="item-count">0 items</span>
+                    </div>
+
+                    <div class="shopping-context-inline">
+                        <div class="context-heading">
+                            <strong>Shopping context</strong>
+                            <span>Optional details for this list</span>
+                        </div>
+                        <div class="context-fields">
+                            <label class="context-field" for="store-name">
+                                <span>Store/Mall Name</span>
+                                <input class="form-control" id="store-name" type="text" placeholder="e.g. Savemart">
+                            </label>
+                            <label class="context-field" for="budget">
+                                <span>My budget</span>
+                                <div class="money-input">
+                                    <span>₱</span>
+                                    <input class="form-control" id="budget" type="number" min="0" step="0.01" placeholder="Optional">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <form id="item-form" class="item-form px-4">
+                        <div class="form-field name-field">
+                            <label for="item-name">Item name</label>
+                            <input class="form-control" id="item-name" type="text" placeholder="Product name" autocomplete="off">
+                        </div>
+                        <div class="form-field">
+                            <label for="item-price">Price</label>
+                            <div class="money-input">
+                                <span>₱</span>
+                                <input class="form-control" id="item-price" type="number" min="0" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+                        <div class="form-field quantity-field">
+                            <label for="item-quantity">Qty</label>
+                            <input class="form-control" id="item-quantity" type="number" min="1" step="1" value="1">
+                        </div>
+                        <div>
+                            <button class="add-button btn w-100" type="submit">Add item <span>+</span></button>
+                        </div>
+                    </form>
+
+                    <p id="form-message" class="message ps-4 mt-2" role="alert"></p>
+
+                    <div class="cart-table-wrap">
+                        <table class="cart-table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Unit price</th>
+                                    <th>Qty</th>
+                                    <th>Amount</th>
+                                    <th><span class="visually-hidden">Remove</span></th>
+                                </tr>
+                            </thead>
+                            <tbody id="cart-items">
+                                <tr class="empty-row"><td colspan="5">No items in this transaction.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="cart-total-bar">
+                        <span>Cart total</span>
+                        <strong id="total">₱0.00</strong>
+                        <button id="reset-button" class="reset-button btn" type="button">Clear cart</button>
+                    </div>
+                    <p id="budget-alert" class="budget-alert" role="status"></p>
+                </section>
+            </main>
+        </div>
+
+        <div class="offcanvas offcanvas-start calculator-offcanvas" tabindex="-1" id="calculatorOffcanvas" aria-labelledby="calculatorOffcanvasTitle">
+            <div class="offcanvas-header">
+                <div>
+                    <p class="page-kicker">UTILITY</p>
+                    <h2 class="offcanvas-title" id="calculatorOffcanvasTitle">Quick calculator</h2>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close calculator"></button>
+            </div>
+            <div class="offcanvas-body">
+                <p class="offcanvas-description">Use this for separate calculations. It does not change your cart total.</p>
+                <div id="calculator-display" class="calculator-display">0</div>
+                <div class="calculator-buttons">
+                    <button class="calculator-button clear-calculator btn" data-action="clear" type="button">Clear</button>
+                    <button class="calculator-button operator btn" data-operation="divide" type="button">÷</button>
+                    <button class="calculator-button operator btn" data-operation="multiply" type="button">×</button>
+                    <button class="calculator-button number btn" data-number="7" type="button">7</button>
+                    <button class="calculator-button number btn" data-number="8" type="button">8</button>
+                    <button class="calculator-button number btn" data-number="9" type="button">9</button>
+                    <button class="calculator-button operator btn" data-operation="subtract" type="button">−</button>
+                    <button class="calculator-button number btn" data-number="4" type="button">4</button>
+                    <button class="calculator-button number btn" data-number="5" type="button">5</button>
+                    <button class="calculator-button number btn" data-number="6" type="button">6</button>
+                    <button class="calculator-button operator btn" data-operation="add" type="button">+</button>
+                    <button class="calculator-button number btn" data-number="1" type="button">1</button>
+                    <button class="calculator-button number btn" data-number="2" type="button">2</button>
+                    <button class="calculator-button number btn" data-number="3" type="button">3</button>
+                    <button class="calculator-button equals btn" data-action="equals" type="button">=</button>
+                    <button class="calculator-button number zero btn" data-number="0" type="button">0</button>
+                    <button class="calculator-button number btn" data-number="." type="button">.</button>
+                </div>
+                <p id="calculator-message" class="message" role="alert"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
